@@ -34,19 +34,24 @@ run_simulation = function(n_trials, n, p, cutoff) {
         all_p_vals = c(all_p_vals, p_vals)
         
         }
-        if(length(all_p_vals) > 0) {
-          hist(all_p_vals, xlab = "p-values", ylab = "Frequency",
-                    main = "Distribution of p-values")
+        obs_str = toString(num_obs)
+        ftrs_str = toString(num_ftrs)
+        path_idx = paste(obs_str, paste("_", ftrs_str, sep = ""), sep = "")
+        save(all_p_vals, paste("p_vals_", path_idx, sep = ""))
         }
       }
     }
-  #print(all_p_vals)
-  
-  
-}
 
 #run_simulation(1, c(100), c(50), .05)
 #n = c(100, 1000,   10000)
 #p = c(10, 20, 50)
 #cutoff = 0.05
 #run_simulation(1, n, p, cutoff)
+
+make_plot = function(datapath) {
+  load(datapath)
+  if(length(all_p_vals) > 0) {
+    hist(all_p_vals, xlab = "p-values", ylab = "Frequency",
+         main = "Distribution of p-values")
+  }
+}
